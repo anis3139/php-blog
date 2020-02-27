@@ -1,43 +1,40 @@
+<?php include 'config/config.php'; ?>
+<?php include 'lib/Database.php'; ?>
+<?php include 'helpers/format.php'; ?>
 <?php include 'inc/header.php'; ?>
 <?php include 'inc/slider.php'; ?>
 	
-
+<?php 
+$fm=new Format();
+$db=new Database();
+?>
 	<div class="contentsection contemplete clear">
 		<div class="maincontent clear">
+		<?php 
+			$query="select * FROM tbl_post limit 3";
+			$post=$db->select($query);
+			if($post){
+			while($result=$post->fetch_assoc()):
+			
+			
+			?>
 			<div class="samepost clear">
-				<h2><a href="">Our post title here</a></h2>
-				<h4>April 10, 2016, 12:30 PM, By <a href="#">Delowar</a></h4>
-				 <a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-				<p>
-					Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.
-				</p>
+				<h2><a href="post.php?id=<?php echo $result['id'];?>"><?php echo $result['title'];?></a></h2>
+				<h4><?php echo $fm->formatdate($result['date']);?>, By<a href="post.php?id=<?php echo $result['id'];?>"><?php echo $result['author'];?></a></h4>
+				 <a href="post.php?id=<?php echo $result['id'];?>"><img src="admin/upload/<?php echo $result['image'];?>" alt="post image"/></a>
+				<?php echo $fm->textshorten($result['body'],300);?>
 				<div class="readmore clear">
-					<a href="post.php">Read More</a>
+					<a href="post.php?id=<?php echo $result['id'];?>">Read More</a>
 				</div>
 			</div>
-			<div class="samepost clear">
-				<h2><a href="">Our post title here</a></h2>
-				<h4>April 10, 2016, 12:30 PM, By <a href="#">Delowar</a></h4>
-				 <img src="images/post2.png" alt="post image"/>
-				<p>
-					Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.
-				</p>
-				<div class="readmore clear">
-					<a href="post.html">Read More</a>
-				</div>
-			</div>
-			<div class="samepost clear">
-				<h2>Our post title here</h2>
-				<h4>April 10, 2016, 12:30 PM, By <a href="#">Delowar</a></h4>
-				 <img src="images/post1.jpg" alt="post image"/>
-				<p>
-					Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.
-				</p>
-				<div class="readmore clear">
-					<a href="post.html">Read More</a>
-				</div>
-			</div>
-
+			<?php 
+			
+			endwhile;
+			}else{
+				header("Location:404.php");
+			};
+			?>
+			
 		</div>
 <?php include 'inc/sidebar.php'; ?>
 <?php include 'inc/footer.php'; ?>
